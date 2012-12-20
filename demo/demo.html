@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="../lib/type.css" rel="stylesheet">
+  <link href="../lib/css/start/jquery-ui-1.9.2.custom.min.css" rel="stylesheet">
+  <style>
+    /* Some stuff that doesn't matter */
+    body {
+      background: #fff;
+      padding: 0;
+      margin: 0;
+    }
+    .demo-wrapper {
+      width: 600px;
+      background-color: #ededed;
+      margin: 0 0 0 12%;
+      padding: 40px 20px;
+    }
+    h1 {
+      margin: 0;
+      padding: 0;
+    }
+    .caption {
+      font-size: .5em;
+      margin: 0 0 40px;
+    }
+    .caption span {
+      color: orange;
+    }
+
+    /* Style for the range picker */
+    .rangepicker {
+      width: 200px;
+      height: 40px;
+      list-style-type: none;
+    }
+
+    .ui-historange-bar {
+      background-color: red;
+      width: 9px;
+      float: left;
+      display: inline-block;
+    }
+    .ui-historange-empty, .ui-historange-spacer {
+      height: 100%;
+      width: 1px;
+      float: left;
+      display: inline-block;
+    }
+    .ui-historange-empty {
+      width: 9px;
+      background: transparent;
+    }
+    .ui-historange-range {
+      background: rgba(255,200,35,0.3)
+    }
+  </style>
+
+  <script type="text/javascript" src="../lib/jquery-1.8.3.min.js"></script>
+  <script type="text/javascript" src="../lib/jquery.ui.core.js"></script>
+  <script type="text/javascript" src="../lib/jquery.ui.widget.js"></script>
+  <script type="text/javascript" src="../lib/jquery.ui.mouse.js"></script>
+
+  <script type="text/javascript" src="../src/historange.js"></script>
+  <script type="text/javascript">
+    //I'll try to make a kind of bell curve I guess.
+    //It doesn't really matter what the numbers are or how many of them there are.
+    var histogramData = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 34, 21, 13, 8, 5, 3, 2, 1, 1, 0];
+
+    $(function() {
+      $(".rangepicker").historange({
+        histogramData: histogramData,
+        min: 0,
+        max: 4000,
+        values: [1400, 2800]
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="demo-wrapper">
+    <h1>HistoRange</h1>
+    <div class="caption">or Hist<span>Orange</span></div>
+
+    <div class="rangepicker"></div>
+  </div>
+</body>
+</html>

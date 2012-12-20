@@ -19,9 +19,9 @@
 // (how many times can you page up/down to go through the whole range)
 var numPages = 5;
 
-$.widget( "ui.slider", $.ui.mouse, {
-	version: "@VERSION",
-	widgetEventPrefix: "slide",
+$.widget( "ui.historange", $.ui.mouse, {
+	version: "0.0.1",
+	widgetEventPrefix: "historange",
 
 	options: {
 		animate: false,
@@ -29,18 +29,27 @@ $.widget( "ui.slider", $.ui.mouse, {
 		max: 100,
 		min: 0,
 		orientation: "horizontal",
-		range: false,
+		range: true,
 		step: 1,
 		value: 0,
-		values: null
+		values: null,
+    histogramData: []
 	},
 
 	_create: function() {
-		var i, handleCount,
+		var i, j, k, handleCount,
 			o = this.options,
 			existingHandles = this.element.find( ".ui-historange-handle" ).addClass( "ui-state-default ui-corner-all" ),
 			handle = "<a class='ui-slider-handle ui-historange-handle ui-state-default ui-corner-all' href='#'></a>",
-			handles = [];
+			spacer = "<li class='ui-historange-spacer'></li>",
+			bar = "<li class='ui-historange-bar'></li>",
+			emptyBar = "<li class='ui-historange-bar ui-historange-empty'></li>",
+			handles = [],
+      dataTotal = 0,
+      barHeight,
+      dataMax = 0,
+      barElement,
+      multiplier;
 
 		this._keySliding = false;
 		this._mouseSliding = false;
@@ -80,6 +89,28 @@ $.widget( "ui.slider", $.ui.mouse, {
 				( ( o.range === "min" || o.range === "max" ) ? " ui-slider-range-" + o.range : "" ) +
 				( ( o.range === "min" || o.range === "max" ) ? " ui-historange-range-" + o.range : "" ) );
 		}
+    if ( o.histogramData && o.histogramData.length > 0 ) {
+      for (j = 0; j < o.histogramData.length; j++) {
+        dataTotal = dataTotal + o.histogramData[j];
+        if (o.histogramData[j] > dataMax) {
+          dataMax = o.histogramData[j];
+        }
+      }
+
+      multiplier = Math.floor(100.0 / dataMax / dataTotal * 100.0);
+      for (k = 0; k < o.histogramData.length; k++) {
+
+        barHeight = (o.histogramData[k] / dataTotal * 100.0);
+
+        if (barHeight < 1) {
+          barElement = $(emptyBar);
+        } else {
+          barHeight = (barHeight * multiplier);
+          barElement = $(bar).css('height', barHeight + '%');
+        }
+        this.element.append(barElement).append(spacer);
+      }
+    }
 
 		handleCount = ( o.values && o.values.length ) || 1;
 
