@@ -38,8 +38,8 @@ $.widget( "ui.slider", $.ui.mouse, {
 	_create: function() {
 		var i, handleCount,
 			o = this.options,
-			existingHandles = this.element.find( ".ui-slider-handle" ).addClass( "ui-state-default ui-corner-all" ),
-			handle = "<a class='ui-slider-handle ui-state-default ui-corner-all' href='#'></a>",
+			existingHandles = this.element.find( ".ui-historange-handle" ).addClass( "ui-state-default ui-corner-all" ),
+			handle = "<a class='ui-slider-handle ui-historange-handle ui-state-default ui-corner-all' href='#'></a>",
 			handles = [];
 
 		this._keySliding = false;
@@ -51,7 +51,9 @@ $.widget( "ui.slider", $.ui.mouse, {
 
 		this.element
 			.addClass( "ui-slider" +
+        " ui-historange" +
 				" ui-slider-" + this.orientation +
+        " ui-historange-" + this.orientation +
 				" ui-widget" +
 				" ui-widget-content" +
 				" ui-corner-all");
@@ -71,11 +73,12 @@ $.widget( "ui.slider", $.ui.mouse, {
 
 			this.range = $( "<div></div>" )
 				.appendTo( this.element )
-				.addClass( "ui-slider-range" +
+				.addClass( "ui-slider-range ui-historange-range" +
 				// note: this isn't the most fittingly semantic framework class for this element,
 				// but worked best visually with a variety of themes
 				" ui-widget-header" +
-				( ( o.range === "min" || o.range === "max" ) ? " ui-slider-range-" + o.range : "" ) );
+				( ( o.range === "min" || o.range === "max" ) ? " ui-slider-range-" + o.range : "" ) +
+				( ( o.range === "min" || o.range === "max" ) ? " ui-historange-range-" + o.range : "" ) );
 		}
 
 		handleCount = ( o.values && o.values.length ) || 1;
@@ -113,7 +116,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 			});
 
 		this.handles.each(function( i ) {
-			$( this ).data( "ui-slider-handle-index", i );
+			$( this ).data( "ui-historange-handle-index", i );
 		});
 
 		this._setOption( "disabled", o.disabled );
@@ -122,7 +125,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 			keydown: function( event ) {
 				/*jshint maxcomplexity:25*/
 				var allowed, curVal, newVal, step,
-					index = $( event.target ).data( "ui-slider-handle-index" );
+					index = $( event.target ).data( "ui-historange-handle-index" );
 
 				switch ( event.keyCode ) {
 					case $.ui.keyCode.HOME:
@@ -184,7 +187,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 				this._slide( event, index, newVal );
 			},
 			keyup: function( event ) {
-				var index = $( event.target ).data( "ui-slider-handle-index" );
+				var index = $( event.target ).data( "ui-historange-handle-index" );
 
 				if ( this._keySliding ) {
 					this._keySliding = false;
@@ -206,6 +209,9 @@ $.widget( "ui.slider", $.ui.mouse, {
 
 		this.element
 			.removeClass( "ui-slider" +
+        " ui-historange" +
+        " ui-historange-horizontal" +
+        " ui-historange-vertical" +
 				" ui-slider-horizontal" +
 				" ui-slider-vertical" +
 				" ui-widget" +
@@ -257,7 +263,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 			.focus();
 
 		offset = closestHandle.offset();
-		mouseOverHandle = !$( event.target ).parents().addBack().is( ".ui-slider-handle" );
+		mouseOverHandle = !$( event.target ).parents().addBack().is( ".ui-historange-handle" );
 		this._clickOffset = mouseOverHandle ? { left: 0, top: 0 } : {
 			left: event.pageX - offset.left - ( closestHandle.width() / 2 ),
 			top: event.pageY - offset.top -
@@ -490,7 +496,9 @@ $.widget( "ui.slider", $.ui.mouse, {
 				this._detectOrientation();
 				this.element
 					.removeClass( "ui-slider-horizontal ui-slider-vertical" )
-					.addClass( "ui-slider-" + this.orientation );
+					.removeClass( "ui-historange-horizontal ui-historange-vertical" )
+					.addClass( "ui-slider-" + this.orientation )
+					.addClass( "ui-historange-" + this.orientation );
 				this._refreshValue();
 				break;
 			case "value":
