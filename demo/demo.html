@@ -24,35 +24,73 @@
       font-size: .5em;
       margin: 0 0 40px;
     }
+
     .caption span {
       color: orange;
     }
 
-    /* Style for the range picker */
+    /* Style for the range picker.
+       Most of the style for this slider is from the 'Start' theme from jQueryUI.
+       These are my overrides. */
+
     .rangepicker {
       width: 200px;
       height: 40px;
       list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .ui-historange-table {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      width: 200px;
+      border-collapse: collapse;
+      border-spacing: 0;
+      empty-cells: show;
+    }
+
+    .ui-historange-table tr {
+      height: 40px;
+      padding: 0;
+      margin: 0;
+      border: 0;
+    }
+
+    .ui-historange-table td {
+      border: 0;
+      padding: 0;
+      margin: 0;
+      vertical-align: bottom;
     }
 
     .ui-historange-bar {
+      border: 0;
+      padding: 0;
+      margin: 0;
       background-color: red;
       width: 9px;
-      float: left;
       display: inline-block;
+      overflow: hidden;
     }
+
     .ui-historange-empty, .ui-historange-spacer {
+      border: 0;
+      padding: 0;
+      margin: 0;
       height: 100%;
       width: 1px;
-      float: left;
       display: inline-block;
     }
+
     .ui-historange-empty {
       width: 9px;
       background: transparent;
     }
+
     .ui-historange-range {
-      background: rgba(255,200,35,0.3)
+      background: rgba(255,200,35,0.3);
     }
   </style>
 
@@ -65,7 +103,7 @@
   <script type="text/javascript">
     //I'll try to make a kind of bell curve I guess.
     //It doesn't really matter what the numbers are or how many of them there are.
-    var histogramData = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 34, 21, 13, 8, 5, 3, 2, 1, 1, 0];
+    var histogramData = [8, 7, 5, 6, 3, 11, 9, 13, 21, 34, 55, 21, 13, 8, 13, 3, 2, 8, 1, 5];
 
     $(function() {
       $(".rangepicker").historange({

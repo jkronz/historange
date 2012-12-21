@@ -41,15 +41,11 @@ $.widget( "ui.historange", $.ui.mouse, {
 			o = this.options,
 			existingHandles = this.element.find( ".ui-historange-handle" ).addClass( "ui-state-default ui-corner-all" ),
 			handle = "<a class='ui-slider-handle ui-historange-handle ui-state-default ui-corner-all' href='#'></a>",
-			spacer = "<li class='ui-historange-spacer'></li>",
-			bar = "<li class='ui-historange-bar'></li>",
-			emptyBar = "<li class='ui-historange-bar ui-historange-empty'></li>",
 			handles = [],
       dataTotal = 0,
       barHeight,
       dataMax = 0,
-      barElement,
-      multiplier;
+      barElement, multiplier;
 
 		this._keySliding = false;
 		this._mouseSliding = false;
@@ -97,19 +93,26 @@ $.widget( "ui.historange", $.ui.mouse, {
         }
       }
 
-      multiplier = Math.floor(100.0 / dataMax / dataTotal * 100.0);
+      multiplier = 100.0 / (dataMax / dataTotal * 100.0);
+      var row = $('<tr></tr>');
       for (k = 0; k < o.histogramData.length; k++) {
 
-        barHeight = (o.histogramData[k] / dataTotal * 100.0);
+        barHeight = o.histogramData[k] / dataTotal;
 
-        if (barHeight < 1) {
-          barElement = $(emptyBar);
+        if ((barHeight * 100) < 1) {
+          barElement = "<td><div class='ui-historange-empty'></div></td>";
         } else {
           barHeight = (barHeight * multiplier);
-          barElement = $(bar).css('height', barHeight + '%');
+          console.log(this.element.outerHeight());
+          barElement = "<td><div class='ui-historange-bar' style='height: " + (barHeight * this.element.height()) + "px'></div></td>";
         }
-        this.element.append(barElement).append(spacer);
+        row.append(barElement);
+        if ((k + 1) < o.histogramData.length) {
+          row.append("<td><div class='ui-historange-spacer'></div></td>");
+        }
       }
+      var table = "<table cellpadding='0' cellspacing='0' class='ui-historange-table'>" + row.html() + "</table>"
+      this.element.append(table);
     }
 
 		handleCount = ( o.values && o.values.length ) || 1;
