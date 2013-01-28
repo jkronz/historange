@@ -92,18 +92,17 @@ $.widget( "ui.historange", $.ui.mouse, {
           dataMax = o.histogramData[j];
         }
       }
-
       multiplier = 100.0 / (dataMax / dataTotal * 100.0);
       var row = $('<tr></tr>');
       for (k = 0; k < o.histogramData.length; k++) {
 
         barHeight = o.histogramData[k] / dataTotal;
 
-        if ((barHeight * 100) < 1) {
+        if ((barHeight * 100) <= 0) {
           barElement = "<td><div class='ui-historange-empty'></div></td>";
         } else {
           barHeight = (barHeight * multiplier);
-          barElement = "<td><div class='ui-historange-bar' style='height: " + (barHeight * this.element.height()) + "px'></div></td>";
+          barElement = "<td><div class='ui-historange-bar' style='height: " + Math.ceil(barHeight * this.element.height()) + "px'></div></td>";
         }
         row.append(barElement);
         if ((k + 1) < o.histogramData.length) {
