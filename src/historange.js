@@ -103,7 +103,6 @@ $.widget( "ui.historange", $.ui.mouse, {
           barElement = "<td><div class='ui-historange-empty'></div></td>";
         } else {
           barHeight = (barHeight * multiplier);
-          console.log(this.element.outerHeight());
           barElement = "<td><div class='ui-historange-bar' style='height: " + (barHeight * this.element.height()) + "px'></div></td>";
         }
         row.append(barElement);
